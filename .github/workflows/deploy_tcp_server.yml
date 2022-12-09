@@ -1,0 +1,42 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Deploy TCP Server
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - hardware_tcp_server/**
+
+jobs:
+  deploy_server:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Deploy Server
+        uses: easingthemes/ssh-deploy@v2.2.7
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.TENGXUN_TOKEN }}
+          ARGS: "-avzr --delete"
+          SOURCE: "hardware_tcp_server/"
+          REMOTE_HOST: ${{ secrets.TENGXUN_HOST }}
+          REMOTE_USER: "root"
+          TARGET: "/home/root/hardware/hardware_tcp_server/"
+          EXCLUDE: "/hardware_tcp_server/, /config.py"
+      
+      - name: Restart server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.TENGXUN_HOST }}
+          username: "root"
+          key: ${{ secrets.TENGXUN_TOKEN }}
+          script: |
+            cd /home/root/hardware/hardware_tcp_server
+            docker-compose restart
+

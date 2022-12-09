@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  twisted:
+    container_name: hardware-tcp-server
+    image: hardware-tcp-server:v1.0
+    build: ./
+    restart: always
+    working_dir: /home/app
+    ports:
+      - 8891:8891
+    volumes:
+      - ./:/home/app
+    environment:
+      - TZ=Asia/Shanghai
+    command: python run.py
+
+
+
+
