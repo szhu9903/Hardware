@@ -1,0 +1,42 @@
+
+
+
+name: deploy hardware admin
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'hardware_admin/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 检出
+      - name: Checkout
+        uses: actions/checkout@master
+      # node:14
+      - name: use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      # npm install
+      - name: npm install
+        run: |
+          cd hardware_admin
+          npm install
+          npm run build
+        env:
+          CI: false
+      # Deploy
+      - name: Deploy
+        uses: easingthemes/ssh-deploy@v2.2.7
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.TENGXUN_TOKEN }}
+          ARGS: "-avzr --delete"
+          SOURCE: "hardware_admin/build/"
+          REMOTE_HOST: ${{ secrets.TENGXUN_HOST }}
+          REMOTE_USER: "root"
+          TARGET: "/nginx/html/hardware/"

@@ -1,0 +1,22 @@
+
+
+.login {
+  position: absolute;
+  width:300px;
+  left:50%;
+  top:50%;
+  margin:-150px 0 0 -150px;
+  background: hsla(0,0%,100%,.3);
+  border-radius:10px;
+}
+.login-title{
+  text-align: center;
+  margin: 20px 0;
+}
+.login-form {
+  padding: 0 30px;
+}
+.login-form-button {
+  width: 100%;
+  /* background-image: linear-gradient(to right,#fbc2eb,#a6c1ee); */
+}
