@@ -36,6 +36,6 @@ jobs:
           username: "root"
           key: ${{ secrets.TENGXUN_TOKEN }}
           script: |
-            cd /home/root/hardware_web_server
+            cd /home/root/hardware/hardware_web_server
             docker-compose restart
 
