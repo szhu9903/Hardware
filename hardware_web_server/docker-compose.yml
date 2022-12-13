@@ -1,0 +1,20 @@
+version: '3'
+services:
+  web:
+    container_name: hardware-web-server
+    image: hardware-web-server:v1.0
+    build: ./
+    restart: always
+    working_dir: /home/app
+    ports:
+      - "8890:8890"
+    volumes:
+      - ./:/home/app
+    # 环境变量 部署可将数据库连接信息放入环境变量 FLASK_CONFIG:启动模式
+    environment:
+      - TZ=Asia/Shanghai
+      - FLASK_APP=server
+      - FLASK_CONFIG=run
+    command: gunicorn server:app -c gunicorn.config.py
+
+
