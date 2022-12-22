@@ -66,7 +66,8 @@ def deal_downstream_message(channel, method, properties, body):
             equip_type = body_dict['EQUIP_TYPE']
             equip_list = RedisExecute.redis_smembers(equip_type)
             for equip_no in equip_list:
-                if equip_no.decode('utf8') in sys_config['protocols'].keys():
+                equip_no = equip_no.decode('utf8')
+                if equip_no in sys_config['protocols'].keys():
                     message_map[event_no]['func'](int(equip_no), event_no, msg_body, sys_config['protocols'][equip_no])
 
         else:
