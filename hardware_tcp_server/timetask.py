@@ -50,6 +50,8 @@ def deal_downstream_message(channel, method, properties, body):
         event_no = body_dict['EVENT_NO']
         msg_body = body_dict['DATA']
 
+        log.msg('mode=%s event_no=%s' % (event_no, event_no), system="S_Down")
+
         # 检查处理函数是否存在
         if event_no not in message_map.keys():
             log.msg('event_id=%s not event' % event_no, system="server")
@@ -64,7 +66,7 @@ def deal_downstream_message(channel, method, properties, body):
             equip_type = body_dict['EQUIP_TYPE']
             equip_list = RedisExecute.redis_smembers(equip_type)
             for equip_no in equip_list:
-                if equip_no in sys_config['protocols'].keys():
+                if equip_no.decode('utf8') in sys_config['protocols'].keys():
                     message_map[event_no]['func'](int(equip_no), event_no, msg_body, sys_config['protocols'][equip_no])
 
         else:
