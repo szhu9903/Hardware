@@ -1,4 +1,6 @@
+import time
 import struct
+import datetime
 from twisted.python import log
 from . import event_meta
 from .login_handler import default_equip_login
@@ -10,31 +12,33 @@ from .helper.demo_funcs import demo_env_update_helper
 def demo_login(message):
     default_equip_login(message, event_meta['DEMO_LOGIN_ACK']['EVENT'], 'ES Controller')
 
-    # time.sleep(3)
-    # # 发送时间
-    # es_time_req(message['EQUIP_CODE'],
-    #                             message['COMPANY_ID'],
-    #                             event_meta['ES_TIME_REQ']['EVENT'],
-    #                             None, message['PROTOCOL'])
+    time.sleep(1)
+    # 发送时间
+    demo_rtc_set_datetime_req(message['EQUIP_CODE'],
+                                event_meta['DEMO_RTC_SET_DATETIME_REQ']['EVENT'],
+                                None, message['PROTOCOL'])
 
-# # 时间信息推送 ES_TIME_REQ 020301
-# def es_time_req(equip_id, company_id, event_no_hex, msg_body_json, protocol):
-#     now_date = datetime.datetime.now()
-#     msg_body_data = struct.pack('!H', now_date.year) + \
-#                     struct.pack('!5B', now_date.month, now_date.day,
-#                                 now_date.hour, now_date.minute, now_date.second)
-#     log.msg('Login Time (==>>): send %s(%s) time (%s) req' % (equip_id, company_id, msg_body_data))
-#     send_message_to_equip(equip_id, company_id, event_no_hex, msg_body_data, protocol)
+# 时间信息推送 DEMO_RTC_SET_DATETIME_REQ 020401
+def demo_rtc_set_datetime_req(equip_code, event_no_hex, message_body, protocol):
+    now_date = datetime.datetime.now()
+    # 构建消息
+    msg_body_data = struct.pack('!3B', now_date.year % 100, now_date.month, now_date.day) + \
+                    struct.pack('!3B', now_date.hour, now_date.minute, now_date.second)
+    # 发送下行消息
+    down_messsage = {
+        'equip_code': equip_code,
+        'event_no_hex': event_no_hex,
+        'msg_body_data': msg_body_data,
+        'protocol': protocol
+    }
+    send_downstream_message(down_messsage)
+    log.msg(f'{equip_code} send SET RTC Datetime', system="020401-REQ")
 
-# # 时间信息推送响应 ES_TIME_ACK 030301
-# def es_time_ack(message):
-#     company_id = message['COMPANY_ID']
-#     result = message['MSG_BODY']
-#     # 默认插入响应库
-#     default_ack_deal(message)
-#     log.msg('PrintCode Controller(<<==):%s(%s) send time ack(%s)'
-#             % (message['EQUIP_CODE'], company_id, result))
-#
+# 时间信息推送响应 DEMO_RTC_SET_DATETIME_ACK 030401
+def demo_rtc_set_datetime_ack(message):
+    RedisExecute.redis_cmd_ack_set(event_meta['DEMO_RTC_SET_DATETIME_ACK']['EVENT'], message['EQUIP_CODE'])
+    log.msg(f"{message['EQUIP_CODE']} send RTC datetime", system="030401-ACK")
+
 
 # LED控制 TH_SET_LED_COLOR_REQ 020201
 def demo_led_color_req(equip_code, event_no_hex, message_body, protocol):

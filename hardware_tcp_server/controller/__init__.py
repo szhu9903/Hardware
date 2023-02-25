@@ -56,15 +56,26 @@ event_meta = {
         'EVENT': '030301',
         'VALUE': bytes([0x3, 0x3, 0x1]),
     },
-    # 发送查询温湿度指令 e -> s
+    # 发送查询温湿度指令 s -> e
     'DEMO_QUERY_ENV_TH_REQ': {
         'EVENT': '010302',
         'VALUE': bytes([0x1, 0x3, 0x2]),
     },
-    # 发送查询温湿度指令 响应 s -> e
+    # 发送查询温湿度指令 响应 e -> s
     'DEMO_QUERY_ENV_TH_ACK': {
         'EVENT': '030302',
         'VALUE': bytes([0x3, 0x3, 0x2]),
+    },
+
+    # RTC 服务发送当前时间 s -> e
+    'DEMO_RTC_SET_DATETIME_REQ': {
+        'EVENT': '020401',
+        'VALUE': bytes([0x2, 0x4, 0x1]),
+    },
+    # RTC 服务发送当前时间 响应 e -> s
+    'DEMO_RTC_SET_DATETIME_ACK': {
+        'EVENT': '030401',
+        'VALUE': bytes([0x3, 0x4, 0x1]),
     }
 
 }
@@ -143,6 +154,18 @@ message_map = {
         'equiptype': 'DEMO',
         'func': demo_handler.demo_query_env_th_ack,
         'operation': 'DEMO_QUERY_ENV',
+    },
+    event_meta['DEMO_RTC_SET_DATETIME_REQ']['EVENT']: {  # 推送当前时间
+        'event': event_meta['DEMO_RTC_SET_DATETIME_REQ']['VALUE'],
+        'equiptype': 'DEMO',
+        'func': demo_handler.demo_rtc_set_datetime_req,
+        'operation': 'DEMO_RTC',
+    },
+    event_meta['DEMO_RTC_SET_DATETIME_ACK']['EVENT']: {  # 设备发送接收时间的响应
+        'event': event_meta['DEMO_RTC_SET_DATETIME_ACK']['VALUE'],
+        'equiptype': 'DEMO',
+        'func': demo_handler.demo_rtc_set_datetime_ack,
+        'operation': 'DEMO_RTC',
     },
 
 }
