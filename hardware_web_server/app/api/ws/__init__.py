@@ -19,4 +19,4 @@ def before_request_special():
     g.result = copy.deepcopy(default_result)
 
 
-from . import demo_ws
+from . import sys_ws

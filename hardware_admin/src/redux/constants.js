@@ -13,6 +13,7 @@ export const GET_SYS_MENU = 'getSysMenu';
 
 // hardware
 export const GET_HARDWARE_EQUIP = 'getHardwareEquip';
+export const GET_ASSIGN_HARDWARE_EQUIP = 'getAssignHardwareEquip'
 export const GET_HARDWARE_TYPE = 'getHardwareType';
 export const GET_HARDWARE_CONFIG_VAR = 'getHardwareConfigVar';
 

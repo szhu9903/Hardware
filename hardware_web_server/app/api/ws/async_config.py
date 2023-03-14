@@ -14,9 +14,26 @@ GET_ACK_TIME_INTERVAL = 2
 GET_ACK_COUNT = 6
 
 async_cmd_map = {
-    'query_env_cmd':{
+    # 全局
+    'sys_set_he_num_cmd': {
+        'func': async_func.general_deal_message,
+        'req_event': '020003',
+        'ack_event': '030003',
+    },
+
+    # Demo
+    'demo_query_env_cmd':{
         'func': async_func.general_deal_message,
         'req_event': '010302',
         'ack_event': '030302',
-    }
+    },
+
+    # Full103
+    'full103_query_env_cmd': {
+        'func': async_func.general_deal_message,
+        'req_event': '021102',
+        'ack_event': '031102',
+    },
+
+
 }

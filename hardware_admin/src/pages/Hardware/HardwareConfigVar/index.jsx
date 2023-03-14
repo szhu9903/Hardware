@@ -26,17 +26,17 @@ export default function HardwareConfigVar() {
     dispatch(action.hardware.getHardwareConfigVar(getListParam));
   }
 
-  // 创建设备分类
+  // 创建配置项
   const createHardwareConfigVar = () => {
     dispatch(action.hardware.updateData({isOperateHardwareConfigVar: true, hardwareConfigVarDetail:{}}));
   }
 
-  // 修改设备分类
+  // 修改配置项
   const updateHaredwareConfigVar = (record) => () => {
     dispatch(action.hardware.updateData({isOperateHardwareConfigVar: true, hardwareConfigVarDetail: record}));
   }
 
-  // 删除设备分类
+  // 删除配置项
   const deleteHardwareConfigVar = (record) => async () => {
     let response = await api.hardware.delHardwareConfigVar({id: record.id});
     if (response.data.status === 200) {

@@ -5,6 +5,7 @@ import action from '../../../redux/actions'
 import { columns } from './columns';
 import { sysPageSize } from '../../../utils/config';
 import OperateEquip from './OperateEquip';
+import AssignEquip from './AssignEquip';
 import api from '../../../api';
 import './index.css'
 
@@ -26,19 +27,25 @@ export default function HardwareEquip() {
     dispatch(action.hardware.getHardwareEquip(getListParam));
   }
 
-  // 创建文章
+  // 创建设备
   const createHardwareEquip = () => {
     dispatch(action.hardware.updateData({isOperateHardwareEquip: true, hardwareEquipDetail:{}}));
   }
 
-  // 修改文章
+  // 修改设备
   const updateHaredwareEquip = (record) => () => {
     dispatch(action.hardware.updateData({isOperateHardwareEquip: true, hardwareEquipDetail: record}));
   }
 
-  // 删除文章
+  // 分配设备
+  const assignHaredwareEquip = (record) => () => {
+    dispatch(action.hardware.updateData({isAssignHardwareEquip: true, hardwareEquipDetail: record}));
+    let getAssignParam = `filter=he_starttype=UNASSIGNED,he_effect=1,he_type=${record.he_type[0].id}`;
+    dispatch(action.hardware.getAssignHardwareEquip(getAssignParam));
+  }
+
+  // 删除设备
   const deleteHardwareEquip = (record) => async () => {
-    console.log('删除文章', record);
     let response = await api.hardware.delHardwareEquip({id: record.id});
     if (response.data.status === 200) {
       message.success("删除成功！")
@@ -64,6 +71,7 @@ export default function HardwareEquip() {
   return (
     <div>
       <OperateEquip />
+      <AssignEquip />
       <div className='blog-search'>
         <Input.Search placeholder="标题搜索" onSearch={searchHardwareEquip} style={{ width: 230 }} enterButton allowClear />
         <Button className='create-btn' type="primary" onClick={createHardwareEquip} >新设备</Button>
@@ -71,7 +79,7 @@ export default function HardwareEquip() {
       <div className='blog-tab'>
         <Table 
           size="middle" 
-          columns={columns(updateHaredwareEquip, deleteHardwareEquip)} 
+          columns={columns(updateHaredwareEquip, deleteHardwareEquip, assignHaredwareEquip)} 
           dataSource={hardwareEquip} 
           rowKey={equip => equip.id} 
           onChange={onChangPage}

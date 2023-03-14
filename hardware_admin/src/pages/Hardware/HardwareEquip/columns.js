@@ -1,7 +1,18 @@
 
 import { Tag, Space, Button } from 'antd';
 
-export const columns = (updateFunc, deleteFunc) => [
+const heStartTypeMap = {
+  START: '启用',
+  STOP: '停用',
+  UNASSIGNED: '待分配',
+}
+const heStartTypeColorMap = {
+  START: 'green',
+  STOP: 'red',
+  UNASSIGNED: 'geekblue',
+}
+
+export const columns = (updateFunc, deleteFunc, assignFunc) => [
   {
     title: '设备名称',
     dataIndex: 'he_name',
@@ -23,7 +34,7 @@ export const columns = (updateFunc, deleteFunc) => [
     dataIndex: 'he_equipstatus',
     key: 'he_equipstatus',
     render: heEquipStatus => (
-      <Tag color={heEquipStatus == 'LINKED' ? 'green' : 'geekblue'}>
+      <Tag color={heEquipStatus == 'LINKED' ? 'green' : 'red'}>
         {heEquipStatus == 'LINKED' ? '在线' : '离线'}
       </Tag>
     )
@@ -33,16 +44,18 @@ export const columns = (updateFunc, deleteFunc) => [
     dataIndex: 'he_starttype',
     key: 'he_starttype',
     render: heStartType => (
-      <Tag color={heStartType == 'START' ? 'green' : 'geekblue'}>
-        {heStartType == 'START' ? '启用' : '停用'}
+      <Tag color={ heStartTypeColorMap[heStartType] }>
+        { heStartTypeMap[heStartType] }
       </Tag>
     )
   },
   {
     title: "操作",
     key: "action",
-    render: (text, record) => (
+    render: (record) => (
       <Space size="middle">
+        {record.he_effect === 0 && 
+        <Button size="small" type="primary" onClick={assignFunc(record)} ghost>分配</Button>}
         <Button size="small" type="primary" onClick={updateFunc(record)} ghost>修改</Button>
         <Button size="small" type="primary" onClick={deleteFunc(record)} danger ghost>删除</Button>
       </Space>

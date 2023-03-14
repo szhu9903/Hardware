@@ -8,6 +8,16 @@ export const columns = (updateFunc, deleteFunc) => [
     key: 'ht_name',
   },
   {
+    title: '编号最小值',
+    dataIndex: 'ht_code_down',
+    key: 'ht_code_down',
+  },
+  {
+    title: '编号最大值',
+    dataIndex: 'ht_code_up',
+    key: 'ht_code_up',
+  },
+  {
     title: "操作",
     key: "action",
     render: (text, record) => (
