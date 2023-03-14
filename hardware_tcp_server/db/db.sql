@@ -129,8 +129,10 @@ CREATE TABLE IF NOT EXISTS `Hardware_Equip`(
     `he_num` VARCHAR(50) NOT NULL,
     /* 设备登录状态 LINKED BROKEN */
     `he_equipstatus` VARCHAR(50)  NOT NULL DEFAULT 'BROKEN',
-    /* 设备可用状态start stop */
-    `he_starttype` VARCHAR(50) NOT NULL DEFAULT 'START',
+    /* 设备可用状态 start: 启用 stop：停用  unassigned: 待分配  */
+    `he_starttype` VARCHAR(50) NOT NULL DEFAULT 'UNASSIGNED',
+    /* 设备作用 0：临时设备（用于分配编号的设备） 1：正常设备 */
+    `he_effect` TINYINT UNSIGNED NOT NULL DEFAULT 1,
     UNIQUE KEY `uk_hardware_equip_he_num` (`he_num`),
     CONSTRAINT `fk_hardware_equip_he_type` FOREIGN KEY(`he_type`) REFERENCES `Hardware_Type`(`id`),
     PRIMARY KEY ( `id` )
@@ -141,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `Hardware_ConfigVar`(
     /* id */
     `id` INT UNSIGNED AUTO_INCREMENT,
     /* 设备类型(Hardware_Type) */
-    `hcv_type` INT UNSIGNED NOT NULL,
+    `hcv_type` INT UNSIGNED,
     /* 参数项名称 */
     `hcv_variablekey`  VARCHAR(50) NOT NULL,
     /* 参数项取值 */
@@ -153,6 +155,8 @@ CREATE TABLE IF NOT EXISTS `Hardware_ConfigVar`(
     PRIMARY KEY ( `id` )
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
 
+
+-- DEMO
 /* 测试板设备环境数据 */
 CREATE TABLE IF NOT EXISTS `Demo_Env`(
   `id` INT UNSIGNED AUTO_INCREMENT,
@@ -191,3 +195,38 @@ CREATE TABLE IF NOT EXISTS `Demo_Led`(
   CONSTRAINT `fk_demo_led_dl_equipid` FOREIGN KEY(`dl_equipid`) REFERENCES `Hardware_Equip`(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+-- f103全功能
+/* 设备环境数据 */
+CREATE TABLE IF NOT EXISTS `Full103_Env`(
+  `id` INT UNSIGNED AUTO_INCREMENT,
+  /* 关联设备(Hardware_Equip) */
+  `fe_equipid` INT UNSIGNED NOT NULL,
+  /* 关联设备编码 */
+  `fe_equipcode` INT UNSIGNED NOT NULL,
+  /* 温度 */
+  `fe_temperature` FLOAT(5,1) NOT NULL DEFAULT 0,
+  /* 湿度 */
+  `fe_humidity` FLOAT(5,1) NOT NULL DEFAULT 0,
+  /* 时间戳，自动更新 */
+  `last_modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_full103_env_fe_equipid` (fe_equipid),
+  CONSTRAINT `fk_full103_env_fe_equipid` FOREIGN KEY(`fe_equipid`) REFERENCES `Hardware_Equip`(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/* 设备继电器控制 */
+CREATE TABLE IF NOT EXISTS `Full103_Relay`(
+  `id` INT UNSIGNED AUTO_INCREMENT,
+  /* 关联设备(Hardware_Equip) */
+  `fr_equipid` INT UNSIGNED NOT NULL,
+  /* 关联设备编码 */
+  `fr_equipcode` INT UNSIGNED NOT NULL,
+  /* Relay 开关 0:开 1:关 */
+  `fr_switch` TINYINT UNSIGNED NOT NULL DEFAULT 1,
+  /* 控制方式 0:自动 1:手动 */
+  `fr_controlmode` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_full103_relay_fr_equipid` (fr_equipid),
+  CONSTRAINT `fk_full103_relay_fr_equipid` FOREIGN KEY(`fr_equipid`) REFERENCES `Hardware_Equip`(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
