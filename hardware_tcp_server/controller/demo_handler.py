@@ -8,7 +8,7 @@ from comm.down_message import send_downstream_message,send_message_to_equip
 from utils.RedisExecute import RedisExecute
 from .helper.demo_funcs import demo_env_update_helper
 
-# Demo设备登录  020201
+# Demo设备登录  020101
 def demo_login(message):
     default_equip_login(message, event_meta['DEMO_LOGIN_ACK']['EVENT'], 'ES Controller')
 
@@ -17,6 +17,26 @@ def demo_login(message):
     demo_rtc_set_datetime_req(message['EQUIP_CODE'],
                                 event_meta['DEMO_RTC_SET_DATETIME_REQ']['EVENT'],
                                 None, message['PROTOCOL'])
+
+
+# Demo配置更新 020102
+def demo_config_set_req(equip_code, event_no_hex, msg_body_json, protocol):
+    # 构建设置请求消息
+    msg_body_data = struct.pack('!B', msg_body_json['DEMO_REPORT_ENV_INTERVAL'])
+    # 发送下行消息
+    down_messsage = {
+        'equip_code': equip_code,
+        'event_no_hex': event_no_hex,
+        'msg_body_data': msg_body_data,
+        'protocol': protocol
+    }
+    send_downstream_message(down_messsage)
+    log.msg(f'{equip_code} send set config', system="REQ")
+
+# Demo配置更新响应 030102
+def demo_config_set_ack(message):
+    log.msg(f"{message['EQUIP_CODE']}set config", system="ACK")
+
 
 # 时间信息推送 DEMO_RTC_SET_DATETIME_REQ 020401
 def demo_rtc_set_datetime_req(equip_code, event_no_hex, message_body, protocol):
