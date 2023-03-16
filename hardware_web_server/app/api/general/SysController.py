@@ -30,7 +30,7 @@ class ConfigVarController(CompositeOperate):
         config_data = SqlExecute.query_sql_data(self.query_config_sql, (g.view_args['record_id'],))
         message_data = {config['hcv_variablekey']:config['hcv_variablevalue'] for config in config_data}
         if config_data[0]['hcv_type']:
-            event_name = config_map[config_data[0]['hcv_type']]
+            event_name = config_map[str(config_data[0]['hcv_type'])]
             FlaskRabbitMQ.send_to_type_equip(config_data[0]['ht_name'],
                                         event_meta[event_name]['EVENT'],
                                         message_data)

@@ -102,12 +102,6 @@ error_info_map = {
 }
 
 
-from enum import Enum
-
-class HardwareType(Enum):
-    demo = 1
-    full103 = 2
-
 event_meta = {
     # 公共
     'COMM_HEARTBEAT_REPORT': {  # 心跳
@@ -219,7 +213,7 @@ event_meta = {
 
 
 config_map = {
-    HardwareType.demo: 'DEMO_CONFIG_SET_REQ',
-    HardwareType.full103: 'FULL103_CONFIG_SET_REQ',
+    '1': 'DEMO_CONFIG_SET_REQ',
+    '2': 'FULL103_CONFIG_SET_REQ',
 }
 

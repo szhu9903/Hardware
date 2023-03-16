@@ -13,11 +13,12 @@ export default function OperateConfigVar(props) {
   const { isOperateHardwareConfigVar, hardwareConfigVarTotalSize, hardwareConfigVarDetail, hardwareType } = useSelector((state) => state.hardware);
 
   useEffect(() => {
-    // 修改分类，渲染文章数据到表单
+    // 修改配置
     if (Object.keys(hardwareConfigVarDetail).length !== 0){
+      console.log('hardwareConfigVarDetail', hardwareConfigVarDetail);
       let formValue = {
         ...hardwareConfigVarDetail,
-        hcv_type: hardwareConfigVarDetail.hcv_type[0].id + "",
+        hcv_type: hardwareConfigVarDetail.hcv_type ? hardwareConfigVarDetail.hcv_type[0].id + "" : 'null',
       }
       configVarForm.setFieldsValue(formValue);
     }
@@ -31,6 +32,9 @@ export default function OperateConfigVar(props) {
 
   // 提交分类
   const submitConfigVar = async (values) => {
+    if(!values.hcv_type || values.hcv_type === 'null'){
+      delete values.hcv_type;
+    }
     let configVarData = {
       data:{
         ...values,
@@ -42,7 +46,7 @@ export default function OperateConfigVar(props) {
     }else{
       response = await api.hardware.modifyHardwareConfigVar({id: values.id}, configVarData);
     }
-    if (response.data.status === 200) {
+    if (response.data.status === 200 && response.data.code === 6) {
       message.success("提交成功！")
       closeOperate();
       let pageIndex = Math.ceil(hardwareConfigVarTotalSize/sysPageSize)
@@ -100,6 +104,7 @@ export default function OperateConfigVar(props) {
                 rules={[{ required: true, message: '请选择设备类型!' }]}
               >
                 <Select placeholder="选择设备类型" >
+                  <Select.Option key={null}>全局</Select.Option>
                   {hardwareType && 
                     hardwareType.map(typeItem => <Select.Option key={typeItem.id}>{typeItem.ht_name}</Select.Option>)
                   }
