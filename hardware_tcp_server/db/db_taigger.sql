@@ -53,7 +53,6 @@ BEGIN
 END
 ||
 DELIMITER;
-
 -- 补全Demo_Led关联设备ID
 DROP TRIGGER IF EXISTS Demo_Led_TBI;
 DELIMITER ||
@@ -61,6 +60,28 @@ CREATE TRIGGER Demo_Led_TBI BEFORE INSERT
 ON Demo_Led FOR EACH ROW
 BEGIN
   SET NEW.dl_equipid=(SELECT id FROM Hardware_Equip WHERE he_num=NEW.dl_equipcode);
+END
+||
+DELIMITER;
+
+
+-- 补全Full103_Env关联设备ID
+DROP TRIGGER IF EXISTS Full103_Env_TBI;
+DELIMITER ||
+CREATE TRIGGER Full103_Env_TBI BEFORE INSERT
+ON Full103_Env FOR EACH ROW
+BEGIN
+  SET NEW.fe_equipid=(SELECT id FROM Hardware_Equip WHERE he_num=NEW.fe_equipcode);
+END
+||
+DELIMITER;
+-- 补全Full103_Relay关联设备ID
+DROP TRIGGER IF EXISTS Full103_Relay_TBI;
+DELIMITER ||
+CREATE TRIGGER Full103_Relay_TBI BEFORE INSERT
+ON Full103_Relay FOR EACH ROW
+BEGIN
+  SET NEW.fr_equipid=(SELECT id FROM Hardware_Equip WHERE he_num=NEW.fr_equipcode);
 END
 ||
 DELIMITER;

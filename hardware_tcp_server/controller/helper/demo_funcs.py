@@ -11,7 +11,7 @@ import struct
 from twisted.python import log
 from utils.mysql_db import MysqlPool
 
-# 温湿度 数据更新
+# DEMO 环境数据更新
 def demo_env_update_helper(message):
     de_equipcode = message['EQUIP_CODE']
     msg_body = message['MSG_BODY']
@@ -37,5 +37,29 @@ def demo_env_update_helper(message):
     }
     MysqlPool.insert_data_db(save_env_sql, save_env_data)
 
+# Full103 环境数据更新
+def full103_env_update_helper(message):
+    fe_equipcode = message['EQUIP_CODE']
+    msg_body = message['MSG_BODY']
 
+    # unpack env data
+    temperature_int, temperature_decimal, humidity_int, humidity_decimal = struct.unpack('!4B', msg_body)
+    fe_temperature = float(f'{temperature_int}.{temperature_decimal}')
+    fe_humidity = float(f'{humidity_int}.{humidity_decimal}')
+
+    log.msg(f"{fe_equipcode} ENV ({fe_temperature},{fe_humidity})", system="REQ")
+
+    # save env data
+    save_env_sql = """
+    insert into Full103_Env(fe_equipcode, fe_temperature, fe_humidity)
+    values(%(fe_equipcode)s, %(fe_temperature)s,%(fe_humidity)s)
+    on duplicate key
+    update de_equipcode=%(fe_equipcode)s,de_temperature=%(fe_temperature)s,de_humidity=%(fe_humidity)s
+    """
+    save_env_data = {
+        'fe_equipcode': fe_equipcode,
+        'fe_temperature': fe_temperature,
+        'fe_humidity': fe_humidity,
+    }
+    MysqlPool.insert_data_db(save_env_sql, save_env_data)
 
