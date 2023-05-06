@@ -54,7 +54,7 @@ def full103_env_update_helper(message):
     insert into Full103_Env(fe_equipcode, fe_temperature, fe_humidity)
     values(%(fe_equipcode)s, %(fe_temperature)s,%(fe_humidity)s)
     on duplicate key
-    update de_equipcode=%(fe_equipcode)s,de_temperature=%(fe_temperature)s,de_humidity=%(fe_humidity)s
+    update fe_equipcode=%(fe_equipcode)s,fe_temperature=%(fe_temperature)s,fe_humidity=%(fe_humidity)s
     """
     save_env_data = {
         'fe_equipcode': fe_equipcode,
