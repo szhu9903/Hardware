@@ -31,7 +31,7 @@ async_cmd_map = {
     # Full103
     'full103_query_env_cmd': {
         'func': async_func.general_deal_message,
-        'req_event': '021102',
+        'req_event': '011102',
         'ack_event': '031102',
     },
 

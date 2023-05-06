@@ -18,8 +18,13 @@ operate_config = {
     'hardwaretype': CompositeOperate(table_module_map['hardwaretype']),
     'hardwareequip': CompositeOperate(table_module_map['hardwareequip']),
     'hardwareconfigvar': ConfigVarController(table_module_map['hardwareconfigvar']),
+
     'demoenv': CompositeOperate(table_module_map['demoenv']),
     'demoled': DemoLedController(table_module_map['demoled']),
+
+    'full103env': CompositeOperate(table_module_map['full103env']),
+    'full103relay': CompositeOperate(table_module_map['full103relay']),
+
 }
 
 # get 请求通用处理
