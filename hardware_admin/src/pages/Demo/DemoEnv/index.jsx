@@ -43,7 +43,7 @@ export default function DemoEnv() {
   // 发送指令
   const sendCommand = (record) => () => {
     let msgData = {
-      event: 'query_env_cmd',
+      event: 'demo_query_env_cmd',
       equip_code: record.de_equipcode,
       message_data: {}
     }
