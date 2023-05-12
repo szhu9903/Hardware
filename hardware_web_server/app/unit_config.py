@@ -208,6 +208,14 @@ event_meta = {
         'EVENT': '031102',
         'VALUE': bytes([0x3, 0x11, 0x2]),
     },
+    'FULL103_RELAY_SWITCH_SET_REQ': {  # 设置Full103继电器开关 s->e
+        'EVENT': '021201',
+        'VALUE': bytes([0x2, 0x12, 0x1]),
+    },
+    'FULL103_RELAY_SWITCH_SET_ACK': {  # 设置Full103设备继电器开关响应 e -> s
+        'EVENT': '031201',
+        'VALUE': bytes([0x3, 0x12, 0x1]),
+    },
 
 }
 
