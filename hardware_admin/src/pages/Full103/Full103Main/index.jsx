@@ -40,15 +40,22 @@ export default function Full103Main() {
     dispatch(action.full103.getFull103Data(null));
   }, [])
 
-  // // 修改文章
-  // const updateDemoLed = (record) => () => {
-  //   dispatch(action.demo.updateData({isOperateDemoLed: true, demoLedDetail: record}));
-  // }
 
-  console.log('得到的', full103Data);
+  // console.log('得到的', full103Data);
 
-  const onChange = (checked) => {
-    console.log(`switch to ${checked}`);
+  const onChange = async (checked, item) => {
+    console.log(`switch to ${checked}`, item);
+    let ledData = {
+      data:{
+        fr_switch: checked ? 0 : 1,
+      }
+    }
+    let response = {};
+    response = await api.full103.modifyFull103Data({id: item.relay_id}, ledData);
+    if (response.data.status === 200) {
+      message.success("更新成功！");
+      dispatch(action.full103.getFull103Data(null));
+    }
   };
 
   const refresh = (record) => {
@@ -72,7 +79,7 @@ export default function Full103Main() {
             width: 300,
           }}
           actions={[
-            <Tooltip title="开关"><Switch defaultChecked onChange={onChange} /></Tooltip>,
+            <Tooltip title="开关"><Switch checked={!item.fr_switch} onChange={(checked) => onChange(checked, item)} /></Tooltip>,
             <RedoOutlined key="ellipsis" onClick={() => refresh(item)} />,
           ]}
         >

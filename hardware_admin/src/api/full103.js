@@ -4,16 +4,16 @@ import service from '../utils/service'
 const getFull103Data = async (param) => {
   return await service.get(`/v3/hardwareequip/?${param ? param : ""}&view=Hardware_Equip_Full103`);
 }
-// // 修改LED
-// const modifyDemoLed = async (param, data) => {
-//   return await service.put(`/v3/demoled/${param.id}/`, data)
-// }
+// 修改full103
+const modifyFull103Data = async (param, data) => {
+  return await service.put(`/v3/full103relay/${param.id}/`, data)
+}
 
 
 
 export default {
   getFull103Data,
-  // modifyDemoLed,
+  modifyFull103Data,
 
   // getDemoEnv,
 }
