@@ -115,6 +115,14 @@ event_meta = {
         'EVENT': '031102',
         'VALUE': bytes([0x3, 0x11, 0x2]),
     },
+    'FULL103_RELAY_SWITCH_SET_REQ': {  # 设置Full103继电器开关 s->e
+        'EVENT': '021201',
+        'VALUE': bytes([0x2, 0x12, 0x1]),
+    },
+    'FULL103_RELAY_SWITCH_SET_ACK': {  # 设置Full103设备继电器开关响应 e -> s
+        'EVENT': '031201',
+        'VALUE': bytes([0x3, 0x12, 0x1]),
+    },
 
 }
 
@@ -279,6 +287,18 @@ message_map = {
         'equiptype': 'FULL103',
         'func': full103_handler.full103_query_env_th_ack,
         'operation': 'FULL103_QUERY_ENV',
+    },
+    event_meta['FULL103_RELAY_SWITCH_SET_REQ']['EVENT']: {  # 推送设备配置
+        'event': event_meta['FULL103_RELAY_SWITCH_SET_REQ']['VALUE'],
+        'equiptype': 'FULL103',
+        'func': full103_handler.full103_relay_switch_set_req,
+        'operation': 'FULL103_RELAY',
+    },
+    event_meta['FULL103_RELAY_SWITCH_SET_ACK']['EVENT']: {  # 设备发送接收推送配置的响应
+        'event': event_meta['FULL103_RELAY_SWITCH_SET_ACK']['VALUE'],
+        'equiptype': 'FULL103',
+        'func': full103_handler.full103_relay_switch_set_ack,
+        'operation': 'FULL103_RELAY',
     },
 
 }
