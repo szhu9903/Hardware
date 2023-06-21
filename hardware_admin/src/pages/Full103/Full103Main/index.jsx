@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Table, Switch, Tooltip, Button, message, Card } from 'antd';
+import { Radio, Switch, Tooltip, Button, message, Card } from 'antd';
 import { EditOutlined, RedoOutlined, SettingOutlined } from '@ant-design/icons';
 import { initWebsocket } from '../../../utils/socket';
 import action from '../../../redux/actions'
@@ -41,7 +41,7 @@ export default function Full103Main() {
   }, [])
 
 
-  // console.log('得到的', full103Data);
+  console.log('得到的', full103Data);
 
   const onChange = async (checked, item) => {
     console.log(`switch to ${checked}`, item);
@@ -69,6 +69,22 @@ export default function Full103Main() {
 
   };
 
+  const RadioChange = async (e, item) => {
+    console.log('radio checked', e.target.value);
+    let sendData = {
+      data:{
+        fr_controlmode: e.target.value,
+      }
+    }
+    console.log('更新数据', sendData);
+    let response = {};
+    response = await api.full103.modifyFull103Data({id: item.relay_id}, sendData);
+    if (response.data.status === 200) {
+      message.success("更新成功！");
+      dispatch(action.full103.getFull103Data(null));
+    }
+  };
+
 
   return (
     <div>
@@ -91,6 +107,13 @@ export default function Full103Main() {
             <span>温度：{item.fe_temperature}</span>
             <span>湿度：{item.fe_humidity}</span>
           </p>
+          <div className='relay-control'>
+            <span>控制方式</span>
+            <Radio.Group onChange={(e) => RadioChange(e, item)} value={item.fr_controlmode}>
+              <Radio value={0}>自动</Radio>
+              <Radio value={1}>手动</Radio>
+            </Radio.Group>
+          </div>
         </Card>
       })}
     </div>

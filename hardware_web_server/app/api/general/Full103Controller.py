@@ -27,7 +27,8 @@ class Full103RelayController(CompositeOperate):
     def after_deal_put(self):
         relay_data = SqlExecute.query_sql_data(self.query_relay_sql, (g.view_args['record_id'],))
         message_data = {
-            'relay_switch': relay_data[0]['fr_switch']
+            'relay_switch': relay_data[0]['fr_switch'],
+            'relay_control': relay_data[0]['fr_controlmode'],
         }
         FlaskRabbitMQ.send_to_equip(relay_data[0]['fr_equipcode'],
                                     event_meta['FULL103_RELAY_SWITCH_SET_REQ']['EVENT'],

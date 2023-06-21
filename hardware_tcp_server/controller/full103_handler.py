@@ -63,10 +63,11 @@ def full103_query_env_th_ack(message):
     RedisExecute.redis_cmd_ack_set(event_meta['FULL103_QUERY_ENV_TH_ACK']['EVENT'], message['EQUIP_CODE'])
     log.msg(f"{message['EQUIP_CODE']} send Query Env", system="031102-ACK")
 
-# full103配置更新 021201
+# 设置Full103继电器开关 021201
 def full103_relay_switch_set_req(equip_code, event_no_hex, msg_body_json, protocol):
     # 构建设置请求消息
     msg_body_data = struct.pack('!B', msg_body_json['relay_switch'])
+    msg_body_data += struct.pack('!B', msg_body_json['relay_control'])
     # 发送下行消息
     down_messsage = {
         'equip_code': equip_code,
@@ -77,6 +78,6 @@ def full103_relay_switch_set_req(equip_code, event_no_hex, msg_body_json, protoc
     send_downstream_message(down_messsage)
     log.msg(f'{equip_code} send set relay switch', system="REQ")
 
-# full103配置更新响应 031201
+# 设置Full103设备继电器开关响应 031201
 def full103_relay_switch_set_ack(message):
     log.msg(f"{message['EQUIP_CODE']}set relay switch", system="ACK")

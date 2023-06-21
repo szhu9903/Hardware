@@ -29,4 +29,9 @@
   width: 30%;
 }
 
+.relay-control{
+  display: flex;
+  justify-content: space-between;
+}
+
 
