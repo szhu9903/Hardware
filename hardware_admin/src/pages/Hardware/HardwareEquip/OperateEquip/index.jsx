@@ -57,6 +57,7 @@ export default function OperateEquip(props) {
       <Modal 
         title={hardwareEquipDetail.id?"修改文章":"创建文章"}
         centered
+        forceRender
         visible={isOperateHardwareEquip}
         onCancel={closeOperate}
         footer={null}
@@ -116,6 +117,7 @@ export default function OperateEquip(props) {
                 <Select placeholder="启用状态" >
                   <Select.Option key={'START'}>启用</Select.Option>
                   <Select.Option key={'STOP'}>停用</Select.Option>
+                  <Select.Option key={'UNASSIGNED'}>待分配</Select.Option>
                 </Select>
               </Form.Item>
             </Col>

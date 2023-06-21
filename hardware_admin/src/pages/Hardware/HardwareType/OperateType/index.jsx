@@ -78,6 +78,20 @@ export default function OperateType(props) {
           >
             <Input />
           </Form.Item>
+          <Form.Item
+            label="最小编号"
+            name="ht_code_down"
+            rules={[{ required: true, message: '请填写最小编号!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="最大编号"
+            name="ht_code_up"
+            rules={[{ required: true, message: '请填写最大编号!' }]}
+          >
+            <Input />
+          </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 21, span: 3 }}>
             <Button type="primary" htmlType="submit">

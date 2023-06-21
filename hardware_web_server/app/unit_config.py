@@ -104,7 +104,7 @@ error_info_map = {
 
 event_meta = {
     # 公共
-    'COMM_HEARTBEAT_REPORT': {
+    'COMM_HEARTBEAT_REPORT': {  # 心跳
         'EVENT': '020001',
         'VALUE': bytes([0x2, 0x0, 0x1])
     },
@@ -116,52 +116,112 @@ event_meta = {
         'EVENT': '030002',
         'VALUE': bytes([0x3, 0x0, 0x2])
     },
+    'COMM_HE_NUM_SET_REQ': {  # 设置设备编号请求 s->e
+        'EVENT': '020003',
+        'VALUE': bytes([0x2, 0x0, 0x3])
+    },
+    'COMM_HE_NUM_SET_ACK': {  # 设置设备编号响应 e -> s
+        'EVENT': '030003',
+        'VALUE': bytes([0x3, 0x0, 0x3])
+    },
 
     # Demo设备 全局
-    # 登录请求 e -> s
-    'DEMO_LOGIN_REQ': {
+    'DEMO_LOGIN_REQ': {  # 登录请求 e -> s
         'EVENT': '020101',
         'VALUE': bytes([0x2, 0x1, 0x1]),
     },
-    # 登录响应 s -> e
-    'DEMO_LOGIN_ACK': {
+    'DEMO_LOGIN_ACK': {  # 登录响应 s -> e
         'EVENT': '030101',
         'VALUE': bytes([0x3, 0x1, 0x1]),
     },
-
-    # 设置LED请求 s->e
-    'DEMO_SET_LED_COLOR_REQ': {
+    'DEMO_CONFIG_SET_REQ': {  # 设置DEMO设备参数请求 s->e
+        'EVENT': '020102',
+        'VALUE': bytes([0x2, 0x1, 0x2]),
+    },
+    'DEMO_CONFIG_SET_ACK': {  # 设置DEMO设备参数响应 e -> s
+        'EVENT': '030102',
+        'VALUE': bytes([0x3, 0x1, 0x2]),
+    },
+    'DEMO_SET_LED_COLOR_REQ': {  # 设置LED请求 s->e
         'EVENT': '020201',
         'VALUE': bytes([0x2, 0x2, 0x1]),
     },
-    # 设置LED响应 e -> s
-    'DEMO_SET_LED_COLOR_ACK': {
+    'DEMO_SET_LED_COLOR_ACK': {  # 设置LED响应 e -> s
         'EVENT': '030201',
         'VALUE': bytes([0x3, 0x2, 0x1]),
     },
-
-    # 接收到温湿度数据 e -> s
-    'DEMO_ENV_TH_REQ': {
+    'DEMO_ENV_TH_REQ': {  # 接收到温湿度数据 e -> s
         'EVENT': '020301',
         'VALUE': bytes([0x2, 0x3, 0x1]),
     },
-    # 接收到温湿度数据响应 s -> e
-    'DEMO_ENV_TH_ACK': {
+    'DEMO_ENV_TH_ACK': {  # 接收到温湿度数据响应 s -> e
         'EVENT': '030301',
         'VALUE': bytes([0x3, 0x3, 0x1]),
     },
-    # 发送查询温湿度指令 e -> s
-    'DEMO_QUERY_ENV_TH_REQ': {
+    'DEMO_QUERY_ENV_TH_REQ': {  # 发送查询温湿度指令 s -> e
         'EVENT': '010302',
         'VALUE': bytes([0x1, 0x3, 0x2]),
     },
-    # 发送查询温湿度指令 响应 s -> e
-    'DEMO_QUERY_ENV_TH_ACK': {
+    'DEMO_QUERY_ENV_TH_ACK': {  # 发送查询温湿度指令 响应 e -> s
         'EVENT': '030302',
         'VALUE': bytes([0x3, 0x3, 0x2]),
+    },
+    'DEMO_RTC_SET_DATETIME_REQ': {  # RTC 服务发送当前时间 s -> e
+        'EVENT': '020401',
+        'VALUE': bytes([0x2, 0x4, 0x1]),
+    },
+    'DEMO_RTC_SET_DATETIME_ACK': {  # RTC 服务发送当前时间 响应 e -> s
+        'EVENT': '030401',
+        'VALUE': bytes([0x3, 0x4, 0x1]),
+    },
+
+    # Full103设备 全局
+    'FULL103_LOGIN_REQ': {  # 登录请求 e -> s
+        'EVENT': '021001',
+        'VALUE': bytes([0x2, 0x10, 0x1]),
+    },
+    'FULL103_LOGIN_ACK': {  # 登录响应 s -> e
+        'EVENT': '031001',
+        'VALUE': bytes([0x3, 0x10, 0x1]),
+    },
+    'FULL103_CONFIG_SET_REQ': {  # 设置Full103设备参数请求 s->e
+        'EVENT': '021002',
+        'VALUE': bytes([0x2, 0x10, 0x2]),
+    },
+    'FULL103_CONFIG_SET_ACK': {  # 设置Full103设备参数响应 e -> s
+        'EVENT': '031002',
+        'VALUE': bytes([0x3, 0x10, 0x2]),
+    },
+    'FULL103_ENV_TH_REQ': {  # 接收到温湿度数据 e -> s
+        'EVENT': '021101',
+        'VALUE': bytes([0x2, 0x11, 0x1]),
+    },
+    'FULL103_ENV_TH_ACK': {  # 接收到温湿度数据响应 s -> e
+        'EVENT': '031101',
+        'VALUE': bytes([0x3, 0x11, 0x1]),
+    },
+    'FULL103_QUERY_ENV_TH_REQ': {  # 发送查询温湿度指令 s -> e
+        'EVENT': '011102',
+        'VALUE': bytes([0x1, 0x11, 0x2]),
+    },
+    'FULL103_QUERY_ENV_TH_ACK': {  # 发送查询温湿度指令 响应 e -> s
+        'EVENT': '031102',
+        'VALUE': bytes([0x3, 0x11, 0x2]),
+    },
+    'FULL103_RELAY_SWITCH_SET_REQ': {  # 设置Full103继电器开关 s->e
+        'EVENT': '021201',
+        'VALUE': bytes([0x2, 0x12, 0x1]),
+    },
+    'FULL103_RELAY_SWITCH_SET_ACK': {  # 设置Full103设备继电器开关响应 e -> s
+        'EVENT': '031201',
+        'VALUE': bytes([0x3, 0x12, 0x1]),
     },
 
 }
 
 
+config_map = {
+    '1': 'DEMO_CONFIG_SET_REQ',
+    '2': 'FULL103_CONFIG_SET_REQ',
+}
 

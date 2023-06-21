@@ -31,6 +31,8 @@ class CompositeOperate(GeneralOperate):
         main_col, fk_col = module['link_column'].split(':')
         sql_query = table_module_map[module_name].sql_query_default
         sql_query = f'{sql_query} where {fk_col}=%s'
+        if row_data[main_col] is None:
+            return None
         sub_datas = SqlExecute.query_sql_data(sql_query, (row_data[main_col]))
         if not g.is_continue_exec:
             return None

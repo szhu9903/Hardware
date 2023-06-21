@@ -1,5 +1,11 @@
 import api from '../../api'
-import {UPDATE_DATA, GET_HARDWARE_EQUIP, GET_HARDWARE_TYPE, GET_HARDWARE_CONFIG_VAR} from '../constants'
+import { 
+  UPDATE_DATA, 
+  GET_HARDWARE_EQUIP, 
+  GET_ASSIGN_HARDWARE_EQUIP,
+  GET_HARDWARE_TYPE, 
+  GET_HARDWARE_CONFIG_VAR,
+} from '../constants'
 
 // 获取设备列表
 const getHardwareEquip = (param) => {
@@ -7,6 +13,17 @@ const getHardwareEquip = (param) => {
     const response = await api.hardware.getHardwareEquip(param);
     dispatch({
       type: GET_HARDWARE_EQUIP,
+      data: response.data,
+    })
+  }
+}
+
+// 获取可分配设备列表
+const getAssignHardwareEquip = (param) => {
+  return async (dispatch) => {
+    const response = await api.hardware.getHardwareEquip(param);
+    dispatch({
+      type: GET_ASSIGN_HARDWARE_EQUIP,
       data: response.data,
     })
   }
@@ -38,6 +55,7 @@ const updateData = (data) => ({type: UPDATE_DATA, data})
 
 export default {
   getHardwareEquip,
+  getAssignHardwareEquip,
   getHardwareType,
   getHardwareConfigVar,
   updateData,

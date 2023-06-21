@@ -13,27 +13,6 @@ from app.comm.SqlExecute import SqlExecute
 from app.comm.FlaskRabbitMQ import FlaskRabbitMQ
 from app.unit_config import event_meta
 
-class ConfigVarController(CompositeOperate):
-    query_config_sql = """
-    select b.*,c.ht_name from
-    Hardware_ConfigVar a
-    left join Hardware_ConfigVar b on a.hcv_type=b.hcv_type
-    left join Hardware_Type c on c.id = a.hcv_type
-    where a.id=%s
-    """
-
-    def __init__(self, module):
-        super(ConfigVarController, self).__init__(module)
-
-    # 修改环境数据
-    def after_deal_put(self):
-        config_data = SqlExecute.query_sql_data(self.query_config_sql, (g.view_args['record_id'],))
-        message_data = {config['hcv_variablekey']:config['hcv_variablevalue'] for config in config_data}
-        FlaskRabbitMQ.send_to_type_equip(config_data[0]['ht_name'],
-                                    event_meta['COMM_HEARTBEAT_INTER_REQ']['EVENT'],
-                                    message_data)
-
-
 class DemoLedController(CompositeOperate):
 
     query_led_sql = """

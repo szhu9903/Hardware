@@ -15,6 +15,7 @@ const HardwareConfigVar = lazy(() => import('../pages/Hardware/HardwareConfigVar
 const DemoLed = lazy(() => import('../pages/Demo/DemoLed'))
 const DemoEnv = lazy(() => import('../pages/Demo/DemoEnv'))
 
+const Full103Main = lazy(() => import('../pages/Full103/Full103Main'))
 
 const lazyLoad = (children) => {
   return  (<Suspense fallback={<></>}>
@@ -31,13 +32,18 @@ const router = [
     children: [
       { index: true, element:  <Navigate to="/home" /> },
       { path: "home", element: lazyLoad(<Home />) },
+      
       { path: "sysuser", element: lazyLoad(<SysUser />)},
       { path: "sysrole", element: lazyLoad(<SysRole />)},
+      
       { path: "hardwareequip", element: lazyLoad(<HardwareEquip />)},
       { path: "hardwaretype", element: lazyLoad(<HardwareType />)},
       { path: "hardwareconfigvar", element: lazyLoad(<HardwareConfigVar />)},
+
       { path: "demoled", element: lazyLoad(<DemoLed />)},
       { path: "demoenv", element: lazyLoad(<DemoEnv />)},
+
+      { path: "full103main", element: lazyLoad(<Full103Main />)},
 
       // { path: "blog/detail/:id", element: lazyLoad(<BlogDetail />) },
     ]

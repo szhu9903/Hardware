@@ -16,7 +16,7 @@ export const columns = (updateFunc, deleteFunc) => [
     title: '设备类型',
     dataIndex: 'hcv_type',
     key: 'hcv_type',
-    render: hcvType => hcvType[0].ht_name
+    render: hcvType => hcvType ? hcvType[0].ht_name : '全局'
   },
   {
     title: '描述',
