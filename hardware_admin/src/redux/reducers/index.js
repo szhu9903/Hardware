@@ -5,6 +5,7 @@ import user from './user'
 import sys from './sys'
 import hardware from './hardware'
 import demo from './demo'
+import full103 from './full103'
 
 export default combineReducers({
   login,
@@ -12,4 +13,5 @@ export default combineReducers({
   sys,
   hardware,
   demo,
+  full103,
 })

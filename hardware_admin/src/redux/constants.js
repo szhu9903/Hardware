@@ -21,6 +21,9 @@ export const GET_HARDWARE_CONFIG_VAR = 'getHardwareConfigVar';
 export const GET_DEMO_LED = 'getDemoLed';
 export const GET_DEMO_ENV = 'getDemoEnv';
 
+// full103
+export const GET_FULL103_DATA = 'getFull103Data';
+
 // 通用更新
 export const UPDATE_DATA = 'updateData';
 

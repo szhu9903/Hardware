@@ -4,6 +4,7 @@ from flask import request, g, jsonify
 from app.comm.CompositeOperate import CompositeOperate
 from .UserController import UserController
 from .DemoController import DemoLedController
+from .Full103Controller import Full103RelayController
 from .SysController import ConfigVarController
 from app.module_config import table_module_map
 from app.unit_config import error_info_map
@@ -18,8 +19,13 @@ operate_config = {
     'hardwaretype': CompositeOperate(table_module_map['hardwaretype']),
     'hardwareequip': CompositeOperate(table_module_map['hardwareequip']),
     'hardwareconfigvar': ConfigVarController(table_module_map['hardwareconfigvar']),
+
     'demoenv': CompositeOperate(table_module_map['demoenv']),
     'demoled': DemoLedController(table_module_map['demoled']),
+
+    'full103env': CompositeOperate(table_module_map['full103env']),
+    'full103relay': Full103RelayController(table_module_map['full103relay']),
+
 }
 
 # get 请求通用处理
